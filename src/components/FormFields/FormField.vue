@@ -1,5 +1,5 @@
 <template>
-  <b-form-group :id="'formGroup_'+schemaName"
+  <b-form-group v-if="!isLoadingExternal" :id="'formGroup_'+schemaName"
                 :description="item.description"
                 :label="item.type !== 'boolean' && (ui.options === undefined || ui.options.label || ui.options.label === undefined) ? title : null"
                 :label-for="schemaName" class="vjf_formField">
@@ -18,7 +18,6 @@
         <slot></slot>
       </b-input-group-append>
     </b-input-group>
-
   </b-form-group>
 </template>
 
@@ -37,6 +36,7 @@ import defaultField from "./defaultField.vue";
 import Radiobuttons from "./Radiobuttons.vue";
 import Tags from "./Tags.vue";
 import File from "./File.vue";
+import axios from "axios";
 
 //@group FormFields
 /**
@@ -45,18 +45,54 @@ import File from "./File.vue";
 export default {
   name: "FormField",
   mixins: [formFieldMixin],
-  methods: {},
-  mounted() {
-    let toFill;
-    if (this.array !== undefined) {
-      let arrayData = this.ui.scope.split("/");
-      arrayData.splice(arrayData.length - 1, 1);
-      arrayData = "#" + arrayData.join("/");
-      if (this.filledData && (toFill = this.filledData[arrayData]) !== undefined && arrayData.length > this.array) {
-        this.$refs.child.fieldData = toFill[this.array];
+  data() {
+    return{
+      isLoadingExternal: this.item && this.item.external ? true : false
+    }
+  },
+  methods: {
+    getExternal(field, url){
+      this.isLoadingExternal = true
+      const config = {
+        url: url,
+        method: 'GET',
+        responseType: 'json',
       }
-    } else if (this.filledData && (toFill = this.filledData[this.ui.scope]) !== undefined) {
-      this.$refs.child.fieldData = toFill;
+      axios(config).then(response => {
+        if (response.data && response.data.length > 0){
+          this.item[field] = response.data
+        }
+        else{
+          this.item[field] = []
+        }
+        this.isLoadingExternal = false
+        this.setFillData()
+      })
+    },
+    setFillData(){
+      let toFill;
+      if (this.array !== undefined) {
+        let arrayData = this.ui.scope.split("/");
+        arrayData.splice(arrayData.length - 1, 1);
+        arrayData = "#" + arrayData.join("/");
+        if (this.filledData && (toFill = this.filledData[arrayData]) !== undefined && arrayData.length > this.array) {
+          this.$refs.child.fieldData = toFill[this.array];
+        }
+      } else if (this.filledData && (toFill = this.filledData[this.ui.scope]) !== undefined) {
+        this.$refs.child.fieldData = toFill;
+      }
+    }
+  },
+  mounted() {
+    const json = this.item;
+    if (json.external && json.external.url){
+      if (json.external.field){
+        this.getExternal(json.external.field, json.external.url)
+      }
+    }
+    else {
+      this.isLoadingExternal = false
+      this.setFillData()
     }
   },
   computed: {

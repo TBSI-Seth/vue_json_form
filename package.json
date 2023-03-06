@@ -1,14 +1,17 @@
 {
-  "name": "@educorvi/vue-json-form",
-  "version": "1.5.2",
+  "name": "@tbsi-seth/vue-json-form",
+  "version": "1.5.3",
   "private": false,
   "license": "MIT",
   "main": "dist/vue-json-form.js",
   "files": [
     "dist/*"
   ],
-  "author": "Julian Pollinger",
-  "repository": "https://github.com/educorvi/vue_json_form.git",
+  "author": "Seth Klingbeil",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TBSI-Seth/vue_json_form.git"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "serve:test": "vue-cli-service serve --port 8088",
@@ -23,7 +26,7 @@
     "build:demo": "vue-cli-service build --dest demo",
     "build:webcomponent": "vue-cli-service build --name dist --target lib --inline-vue --dest dist/webcomponent src/webcomponent/index.js",
     "lint": "vue-cli-service lint",
-    "doc": "npm run doc:schema && npm run doc:components && copyfiles src/helper/docs/docu.css -f docs -E && sed -i 's/docute.css\">/docute.css\"><link href=\"docu.css\" rel=\"stylesheet\">/g' ./docs/index.html && sed -i 's/sidebar/nav: [{title: \"Documentation of the ui schema\", link:\"https:\\/\\/educorvi.github.io\\/vue_json_form\\/schemaDoc\"}, {title: \"Repository\", link: \"https:\\/\\/github.com\\/educorvi\\/vue_json_form\"}], sidebar/g' ./docs/index.html && git add --all",
+    "doc": "npm run doc:schema && npm run doc:components && copyfiles src/helper/docs/docu.css -f docs -E && sed -i 's/docute.css\">/docute.css\"><link href=\"docu.css\" rel=\"stylesheet\">/g' ./docs/index.html && sed -i 's/sidebar/nav: [{title: \"Documentation of the ui schema\", link:\"https:\\/\\/tbsi-seth.github.io\\/vue_json_form\\/schemaDoc\"}, {title: \"Repository\", link: \"https:\\/\\/github.com\\/tbsi-seth\\/vue_json_form\"}], sidebar/g' ./docs/index.html && git add --all",
     "doc:schema": "npx @adobe/jsonschema2md -d src/schemas/ui -o docs/schemaDoc -x docs/schemas && copyfiles src/helper/docs/index.html docs/schemaDoc -E -f",
     "doc:components": "npx vuese gen && copyfiles README.md docs -E && del-cli docs/demo && copyfiles ./demo/**/* docs/ && copyfiles ./demo/* docs/",
     "zip": "npm run zip:npm && npm run zip:demo",
@@ -111,5 +114,18 @@
     ],
     "outDir": "docs",
     "title": "Vue JSON Form"
-  }
+  },
+  "description": "[![GitHub release (latest by date)](https://img.shields.io/github/v/release/tbsi-seth/vue_json_form)](https://github.com/tbsi-seth/vue_json_form/releases/latest)\r [![npm](https://img.shields.io/npm/v/@tbsi-seth/vue-json-form)](https://www.npmjs.com/package/@tbsi-seth/vue-json-form)\r [![End2End Tests](https://github.com/tbsi-seth/vue_json_form/actions/workflows/cypress.yml/badge.svg)](https://github.com/tbsi-seth/vue_json_form/actions/workflows/cypress.yml)\r [![Browserstack Tests](https://github.com/tbsi-seth/vue_json_form/actions/workflows/browserstack.yml/badge.svg)](https://github.com/tbsi-seth/vue_json_form/actions/workflows/browserstack.yml)\r [![GitHub issues](https://img.shields.io/github/issues/tbsi-seth/vue_json_form)](https://github.com/tbsi-seth/vue_json_form/issues)",
+  "bugs": {
+    "url": "https://github.com/TBSI-Seth/vue_json_form/issues"
+  },
+  "homepage": "https://github.com/TBSI-Seth/vue_json_form#readme",
+  "directories": {
+    "doc": "docs"
+  },
+  "keywords": [
+    "vue",
+    "json",
+    "forms"
+  ]
 }

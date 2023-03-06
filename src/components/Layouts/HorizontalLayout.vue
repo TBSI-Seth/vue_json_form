@@ -1,9 +1,9 @@
 <template>
       <b-row :class="'vjf_horizontal '+customCss">
-        <b-col v-for="(item, index) in ui.elements" :key="ui.toString().length+'_'+index">
+        <div :class="setColumnWidth(item)" v-for="(item, index) in ui.elements" :key="ui.toString().length+'_'+index">
           <form-wrap @changedData="loopUp" :json="json" :ui="item" :filledData="filledData"
                      :form-i-d="formID"></form-wrap>
-        </b-col>
+        </div>
       </b-row>
 </template>
 
@@ -16,7 +16,12 @@ import layout from "./layoutMixin.js";
  */
 export default {
   name: "HorizonzalLayout",
-  mixins: [layout]
+  mixins: [layout],
+  methods: {
+    setColumnWidth(item){
+      return item && item.options && item.options.columnWidth && parseInt(item.options.columnWidth) > 0 && parseInt(item.options.columnWidth) <= 12 ? 'col-' + item.options.columnWidth : 'col'
+    }
+  }
 }
 </script>
 

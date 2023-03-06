@@ -20,12 +20,12 @@ export default {
         }
         return key;
       }
-
+      
       return this.item.enum.map(key => {
         return {value: key, text: getTextForItem(this.ui.options, key)}
       })
     }
-  },
+  }
 }
 </script>
 

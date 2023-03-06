@@ -65,7 +65,8 @@
               "type": "Control",
               "scope": "#/properties/rating",
               "options": {
-                "rating": true
+                "rating": true,
+                "columnWidth": 4
               }
             }
           ]
