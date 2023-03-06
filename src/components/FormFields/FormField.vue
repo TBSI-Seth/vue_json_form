@@ -47,7 +47,7 @@ export default {
   mixins: [formFieldMixin],
   data() {
     return{
-      isLoadingExternal: this.item && this.item.external ? true : false
+      isLoadingExternal: this.item?.external ? true : false
     }
   },
   methods: {
@@ -104,7 +104,7 @@ export default {
       const json = this.item;
 
       //Special Treatment for Enums
-      if (json.enum !== undefined && type !== "array") {
+      if ((json.enum !== undefined || json.external?.field === 'enum') && type !== "array") {
         if (this.ui.options?.radiobuttons || this.ui.options?.buttons) {
           return Radiobuttons;
         } else {
@@ -132,7 +132,7 @@ export default {
         case "string":
           return String;
         case "array":
-          return (json.enum === undefined) ? Array : MultibleChoice;
+          return (json.enum !== undefined || (json.external && json.external.field === 'enum')) ? MultibleChoice : Array;
         default:
           return defaultField;
       }
@@ -144,7 +144,7 @@ export default {
         return '';
       }
     }
-  },
+  }
 }
 </script>
 
